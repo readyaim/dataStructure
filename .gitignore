@@ -1,0 +1,11 @@
+#ignore all files
+*
+#ignore all folders
+!/**/
+
+#include all cpp files
+!**/*.cpp
+!**/makefile
+
+#include .gitignore
+!.gitignore
