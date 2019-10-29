@@ -1,4 +1,5 @@
 #include <iostream>
+#include <time.h>
 //#include <bits/stdc++.h>
 using namespace std;
 #define MAXSIZE 100
@@ -22,8 +23,11 @@ class GenList {
 private:
     GenListNode *first;
     int NumberofNode(GenListNode *p);
+    int MaxList(void);
     int MaxList(GenListNode *p);
     float AvgList(GenListNode *p);
+    int NumberofNode(void);
+    float AvgList(void);
 public:
     GenList();
     ~GenList();
@@ -34,6 +38,58 @@ public:
     float Avg(void);
 };
 
+
+int GenList::NumberofNode(void)
+{
+    int num=0;
+    GenListNode *p;
+    p=first;
+    while(p->utype!=2)
+    {
+        p=p->tlink;
+    }
+    
+    while(p->tlink!=NULL)
+    {
+        num++;
+        p=p->tlink;
+    }
+    return num;
+}
+int GenList::MaxList(void)
+{
+    int maxvalue;
+    GenListNode *p;
+    p=first->tlink;
+    if (p!=NULL)
+    {
+        maxvalue = p->value.intginfo;
+        p=p->tlink;
+    }
+    while(p!=NULL)
+    {
+        if (maxvalue<p->value.intginfo)
+        {
+            maxvalue = p->value.intginfo;
+        }
+            p = p->tlink;
+    }
+    return maxvalue;
+}
+float GenList::AvgList(void)
+{
+    int sumvalue=0;
+    int num=0;
+    GenListNode *p;
+    p = first->tlink;
+    while(p!=NULL)
+    {
+        sumvalue += p->value.intginfo;
+        num++;
+        p=p->tlink;
+    }
+    return (float)sumvalue/num;
+}
 GenList::GenList()
 {
     first = new GenListNode;
@@ -59,6 +115,7 @@ void GenList::InitIntList(int size)
     GenListNode *p;
     GenListNode *head;
     head = first;
+    srand((unsigned)time(NULL));  //seed of rand(), need time.h
     for (int i = 0;i<size; i++)
     {
         p = new GenListNode;
@@ -115,7 +172,8 @@ int GenList::MaxList(GenListNode *p)
 }
 int GenList::Max(void)
 {
-    return MaxList(first);
+    /* return MaxList(first); */  //last very long time
+    return MaxList();
 }
 
 int GenList::NumberofNode(GenListNode *p)
@@ -136,6 +194,7 @@ int GenList::NumberofNode(GenListNode *p)
 int GenList::Len(void)
 {
     return NumberofNode(first);
+    /* return NumberofNode(); */
 }
 
 float GenList::AvgList(GenListNode *p)
@@ -158,20 +217,24 @@ float GenList::AvgList(GenListNode *p)
 float GenList::Avg(void)
 {
     return AvgList(first);
+    /* return AvgList(); */
 }
 int main()
 {
     int maxvalue;
     int lenvalue;
     float avgvalue;
+    int size;
     GenList L = GenList();
-    L.InitIntList(6);
+    cout<<"Input the size(int):";
+    cin>>size;
+    L.InitIntList(size);
     L.Show();
     maxvalue = L.Max();
     cout<<endl<<"maxvalue is "<<maxvalue<<endl;
 
-    lenvalue = L.Len();
-    cout<<endl<<"lenvalue is "<<lenvalue<<endl;
+lenvalue = L.Len();
+   cout<<endl<<"lenvalue is "<<lenvalue<<endl;
 
     avgvalue = L.Avg();
     cout<<endl<<"avgvalue is "<<avgvalue<<endl;
